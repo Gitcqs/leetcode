@@ -6,4 +6,29 @@ public class Solution {
         {	return new int[] {i,j};}
 		throw new IllegalArgumentException("No two sum solution");
     }
+	
+	////////////////////////////////////////////////
+	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+	ListNode result, node;
+	int temp, carry = 0;
+
+	if (l1 == null && l2 == null) {
+		return null;
+	}
+	result = new ListNode(0);
+	node = result;
+	do  {
+		temp = (l1 == null ? 0 : l1.val) + (l2 == null ? 0 : l2.val) + carry;
+		carry = temp < 10 ? 0 : 1;
+		node.next = new ListNode(temp % 10);
+		node = node.next;
+		if (l1 != null)
+			l1 = l1.next;
+		if (l2 != null)
+			l2 = l2.next;
+	} while (l1 != null || l2 != null || carry > 0);
+	return result.next;
+}
+	
+	
 }
