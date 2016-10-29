@@ -35,4 +35,54 @@ public class Solution {
 	
 }
          ///////////////////////////////////////
-          
+   String longestCommonPrefix(String[] strs) {//较为冗余
+
+        int count = strs.length;  //数组内的字符串数量
+
+        if(count < 1) return "";
+
+        int minLen = Integer.MAX_VALUE;//求各字符串其中最小长度
+
+        for(int i = 0; i < count; i++) {
+
+            if(minLen > strs[i].length()) minLen = strs[i].length();
+
+        }
+
+        if (minLen < 1) return "";
+
+        String pat = "";
+
+        int k = 0;
+
+        while(k < minLen) {//防止比较时二位串内越界
+
+        pat += strs[0].charAt(k);
+
+        k++;
+
+        for (int i = 0; i < count; i++) {//比较所有字符
+
+        	if(!prefix(strs[i],pat)) return pat.substring(0,k-1) ;//若失配返回上次匹配前缀子串
+
+        }
+
+        }
+
+        return pat;
+
+    }
+
+     boolean prefix(String str, String pat) {//匹配前缀的子函数
+
+         int length = pat.length();
+
+         for (int i =0; i <length; i++) {
+
+             if(str.charAt(i) != pat.charAt(i)) return false;
+
+         }
+
+         return true;
+
+     }
