@@ -86,3 +86,40 @@ public class Solution {
          return true;
 
      }
+     /////////////////////////////////////////////////////////////////
+     public void nextPermutation(int[] nums) {
+        if (nums.length < 2) return;
+        int i = nums.length-2;
+        for(;i >= 0; i--) {
+            if (nums[i] < nums[i+1])
+            break;
+        }
+        if (i == -1) {       //can't find a greater permutation
+            reverse(nums,0);
+            return;
+        }
+        int min = Integer.MAX_VALUE;
+        int minIndex=0;
+        for(int j = nums.length-1; j > i; j--) {
+            if(nums[j] > nums[i] && min > nums[j]) {//find property minIndex；
+                min = nums[j];
+                minIndex = j;
+            }
+        }
+        
+        int temp;
+        temp = nums[i];
+        nums[i] = nums[minIndex];
+        nums[minIndex] = temp;
+        reverse(nums,i+1);
+        return;
+    }
+    void reverse(int[] nums, int n) {
+        for (int i = n,j = 0; i < nums.length-1-j; i++,j++) {
+            //swap(nums[i],nums[nums.length-1-i]);
+        int temp;
+        temp = nums[i];
+        nums[i] = nums[nums.length-1-j];
+        nums[nums.length-1-j] = temp;
+        }
+    }
