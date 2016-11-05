@@ -123,3 +123,200 @@ public class Solution {
         nums[nums.length-1-j] = temp;
         }
     }
+/////////////////////////////////////////////////////////////////////////////
+public int maximalSquare(char[][] matrix) {  //final .optimized!save space .O(n^2) time and O(n) space
+
+        if (matrix.length == 0) return 0;
+
+        int nr = matrix.length;
+
+        int nc = matrix[0].length;
+
+        int[] dp = new int[nc +1]; 
+
+        int maxSize = 0;
+
+        int pre = 0;
+
+        for (int i = 1; i <= nr; i++) {
+
+            for (int j = 1; j <= nc; j++) {
+
+                int temp = dp[j];
+
+                if (matrix[i -1][j -1] == '0') dp[j] = 0;
+
+                else {
+
+                   dp[j] = Math.min(dp[j -1],Math.min(dp[j],pre)) + 1;
+
+                   maxSize = Math.max(dp[j],maxSize);
+
+                }
+
+                pre = temp; 
+
+            }
+
+                
+
+        }
+
+        return maxSize*maxSize;
+
+    }
+
+   /* public int maximalSquare(char[][] matrix) {     //easy to understand
+
+        if (matrix.length == 0) return 0;
+
+        int m = matrix.length;
+
+        int n = matrix[0].length;
+
+        int[][] p = new int[m][n]; 
+
+        int maxSize = 0;
+
+        for (int i = 0; i < m; i++) {
+
+            p[i][0] = matrix[i][0] - '0';
+
+            maxSize = Math.max(p[i][0],maxSize);
+
+        }
+
+        for (int j = 0; j < n; j++) {
+
+            p[0][j] = matrix[0][j] - '0';
+
+            maxSize = Math.max(p[0][j],maxSize);
+
+        }
+
+        for (int i = 1; i < m; i++) {
+
+            for (int j = 1; j < n; j++) {
+
+                if (matrix[i][j] == '1') {
+
+                p[i][j] = Math.min(p[i -1][j],Math.min(p[i][j - 1],p[i - 1][j - 1])) + 1;
+
+                maxSize = Math.max(p[i][j],maxSize);
+
+                }
+
+            }
+
+        }
+
+        return maxSize*maxSize;
+    }*/
+///////////////////////////////////////////////////////////////////:
+public class NumArray {
+
+    final int[] nums;
+
+    public NumArray(int[] nums) {
+
+        for (int i = 1; i < nums.length; i++)
+
+        nums[i] += nums[i - 1];
+
+        
+
+    this.nums = nums;
+
+    }
+
+
+
+    public int sumRange(int i, int j) {
+
+        return i == 0 ? nums[j] : nums[j] - nums[i - 1];
+
+    }
+
+}
+
+
+
+
+
+// Your NumArray object will be instantiated and called as such:
+
+// NumArray numArray = new NumArray(nums);
+
+// numArray.sumRange(0, 1);
+
+// numArray.sumRange(1, 2);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+public class Solution {
+
+    public int coinChange(int[] coins, int amount) {   //322. Coin Change
+
+        if(amount < 0) return -1;
+
+        if(amount == 0) return 0;
+
+        int[] sum = new int[amount +1];
+
+        for(int i = 1; i < amount +1; i++) {
+
+            sum[i] = amount +1;
+
+        }
+
+        
+
+        for(int i = 1; i <= amount; i++) {
+
+            for(int j = 0; j < coins.length; j++) {
+
+                if (coins[j] <= i) {
+
+                sum[i] = Integer.min(sum[i], sum[i - coins[j]] + 1 );
+
+            }
+
+        }
+
+    }
+
+    return sum[amount] > amount ? -1 : sum[amount];
+
+}
+
+}
+ public class Solution {
+//the following answer is recursive with prunning
+   public int curMin=Integer.MAX_VALUE;
+public int coinChange(int[] coins, int amount) {    322. Coin Change    DFS
+    if(coins.length==0||amount==0)
+      return 0;
+     Arrays.sort(coins);
+   DFS(coins,coins.length-1,amount,0);
+   if(curMin==Integer.MAX_VALUE)
+     return -1;
+   return curMin;
+}
+public void DFS(int[]coins,int index,int amount,int count)
+{
+  if(index==-1)
+    return ;
+   int number=amount/coins[index];
+   for(int i=number;i>=0;i--)
+   {
+       int remain=amount-coins[index]*i;
+       int newcount=count+i;
+       if(remain>0&&newcount<curMin)
+         DFS(coins,index-1,remain,newcount);
+        else if(newcount<curMin)
+         curMin=newcount;
+        else 
+          break;
+   }
+}
+}
+
