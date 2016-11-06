@@ -323,3 +323,62 @@ public void DFS(int[]coins,int index,int amount,int count)
 //////////////////////////////////////////////////////////////////////////////////
 // just have a try use vs code git remote 
 // low battery again 
+
+
+class TrieNode {             //208. Implement Trie (Prefix Tree)  
+    TrieNode[] children; 
+    boolean isEndOfString;
+    // Initialize your data structure here.
+    public TrieNode() {
+        children = new TrieNode[26];
+        isEndOfString = false;
+    }
+     TrieNode nextChild(int i) {
+        return children[i];
+    }
+}
+
+public class Trie {
+    private TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    // Inserts a word into the trie.
+    public void insert(String word) {
+        TrieNode curr = root;
+        for (char c : word.toCharArray()) {
+            if(curr.children[c - 'a'] == null) curr.children[c - 'a'] = new TrieNode();
+            curr = curr.nextChild(c - 'a');
+        }
+        curr.isEndOfString = true;
+        
+    }
+
+    // Returns if the word is in the trie.
+    public boolean search(String word) {
+        TrieNode curr = root;
+        for (char c : word.toCharArray()) {
+            if(curr.children[c - 'a'] == null) return false;
+            curr = curr.nextChild(c - 'a');
+        }
+        return curr.isEndOfString;
+    }
+
+    // Returns if there is any word in the trie
+    // that starts with the given prefix.
+    public boolean startsWith(String prefix) {
+        TrieNode curr = root;
+        for (char c : prefix.toCharArray()) {
+            if(curr.children[c - 'a'] == null) return false;
+            curr = curr.nextChild(c - 'a');
+        }
+        return true;
+    }
+}
+
+// Your Trie object will be instantiated and called as such:
+// Trie trie = new Trie();
+// trie.insert("somestring");
+// trie.search("key");
