@@ -382,3 +382,97 @@ public class Trie {
 // Trie trie = new Trie();
 // trie.insert("somestring");
 // trie.search("key");
+
+
+13 / 13 test cases passed.
+Status: Accepted
+Runtime: 98 ms
+
+
+public class WordDictionary {   ////211. Add and Search Word - Data structure design    AC //////  
+
+    private Trie trie;
+     WordDictionary() {
+         trie = new Trie();
+     }
+    // Adds a word into the data structure.
+    public void addWord(String word) {
+        trie.insert(word);
+    }
+
+    // Returns if the word is in the data structure. A word could
+    // contain the dot character '.' to represent any one letter.
+    public boolean search(String word) {
+        return trie.search2(trie.root,word);
+    }
+}
+
+// Your WordDictionary object will be instantiated and called as such:
+// WordDictionary wordDictionary = new WordDictionary();
+// wordDictionary.addWord("word");
+// wordDictionary.search("pattern");
+class TrieNode {
+    TrieNode[] children; 
+    boolean isEndOfString;
+    // Initialize your data structure here.
+    public TrieNode() {
+        children = new TrieNode[26];
+        isEndOfString = false;
+    }
+     TrieNode nextChild(int i) {
+        return children[i];
+    }
+}
+
+class Trie {
+    TrieNode root;
+    public Trie() {
+        root = new TrieNode();
+    }
+    // Inserts a word into the trie.
+    public void insert(String word) {
+        TrieNode curr = root;
+        for (char c : word.toCharArray()) {
+            if(curr.children[c - 'a'] == null) curr.children[c - 'a'] = new TrieNode();
+            curr = curr.nextChild(c - 'a');
+        }
+        curr.isEndOfString = true;
+    }
+    // Returns if the word is in the trie.
+    public boolean search(TrieNode rootnow,String word) {
+        TrieNode curr = rootnow;
+        for (char c : word.toCharArray()) {
+            if(curr.children[c - 'a'] == null) return false;
+            curr = curr.nextChild(c - 'a');
+        }
+        return curr.isEndOfString;
+    }
+    //////contain the dot character '.' to represent any one letter. Returns if the word is in the trie.
+     public boolean search2(TrieNode rootnow,String word) {
+        TrieNode curr = rootnow;
+        int n = 0;
+        for (char c : word.toCharArray()) {
+            n++;
+            if(c == '.') {
+                String piece = findNext(curr);
+                String ss = "" ;
+                if(piece.length() == 0) return false;
+                if(n < word.length()) ss = word.substring(n); 
+                for (char cc : piece.toCharArray()) {
+                if(search2(curr,cc+ss)) return true;
+                } return false;
+            }
+            if(curr.children[c - 'a'] == null) return false;
+            curr = curr.nextChild(c - 'a');
+        }
+        return curr.isEndOfString;
+    }
+    ///find curr's all children
+    public String findNext(TrieNode curr) {
+        String s = "";
+        for(int i =0; i < 26; i++) {
+            if(curr.children[i] != null) s+= (char)('a' + i);
+        }
+        return s;
+    }
+}
