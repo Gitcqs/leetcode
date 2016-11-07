@@ -1,3 +1,27 @@
 // Place your settings in this file to overwrite default and user settings.
-{
+{// Astyle configuration
+
+    // astyle executable path
+    "astyle.executable": "astyle",
+
+    // astylerc path (set to null for default lookup order)
+    "astyle.astylerc": null,
+
+    // array of command line options
+    "astyle.cmd_options": [],
+
+    // enable C formatting
+    "astyle.c.enable": true,
+
+    // enable C++ formatting
+    "astyle.cpp.enable": true,
+
+    // enable Object-C formatting
+    "astyle.objective-c.enable": false,
+
+    // enable C# formatting
+    "astyle.csharp.enable": false,
+
+    // enable Java formatting
+    "astyle.java.enable": true
 }
